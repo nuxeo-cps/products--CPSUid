@@ -1,0 +1,28 @@
+=======================
+CPSUid - Uid generation
+=======================
+
+:Author: Anahide Tchertchian
+:Revision: $Id$
+
+
+Uid generation is done according to a portal type for now: that's the only
+criterion used to find out which generator should be used.
+
+Each generator holds counters given other criteria so that we can build
+uniques identifiers like 'S-YY-NNN' with:
+
+- S: code identifying the document source (for instance)
+- YY: current year
+- NNN: document number created from the counter
+
+So in this case we would have a counter per source and year.
+
+
+
+.. Emacs
+.. Local Variables:
+.. mode: rst
+.. End:
+.. Vim
+.. vim: set filetype=rst:
