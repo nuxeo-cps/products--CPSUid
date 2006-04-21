@@ -23,6 +23,7 @@ A counter holds criteria and an integer counter applying to these criteria
 
 from zope.interface import implements
 
+from Globals import InitializeClass
 from AccessControl import ClassSecurityInfo
 
 from Products.CMFCore.utils import SimpleItemWithProperties
@@ -96,3 +97,6 @@ class UidCounter(SimpleItemWithProperties):
                              newState['counter_current'])
         newState['counter_current'] = bigger_counter + 1
         return newState
+
+
+InitializeClass(UidCounter)

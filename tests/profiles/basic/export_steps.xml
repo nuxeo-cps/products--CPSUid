@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<export-steps>
+ <export-step id="step_registries"
+              handler="Products.GenericSetup.tool.exportStepRegistries"
+              title="Export import / export steps.">
+ </export-step>
+ <export-step id="uid"
+              handler="Products.CPSUid.exportimport.exportUidTool"
+              title="Uid Tool">
+  Export uid tool and uid generators
+ </export-step>
+</export-steps>

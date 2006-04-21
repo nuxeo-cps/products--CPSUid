@@ -20,3 +20,35 @@
 
 $Id$
 """
+from Products.CMFCore.utils import ContentInit, ToolInit
+from Products.CMFCore.permissions import AddPortalContent, ManagePortal
+
+from Products.GenericSetup import profile_registry
+from Products.GenericSetup import EXTENSION
+from Products.CPSCore.interfaces import ICPSSite
+
+from Products.CPSUid.uidtool import UidTool
+from Products.CPSUid.uidgenerator import UidGenerator
+
+def initialize(registrar):
+
+    ToolInit(
+        'CPS Tools',
+        tools=(UidTool,),
+        icon='tool.png',
+        ).initialize(registrar)
+
+    registrar.registerClass(
+        UidGenerator,
+        permission=ManagePortal,
+        constructors=(UidTool.manage_addUidGenerator,),
+        )
+
+    profile_registry.registerProfile(
+        'default',
+        'CPS Uid',
+        "Ujnique identifier product for CPS.",
+        'profiles/default',
+        'CPSUid',
+        EXTENSION,
+        for_=ICPSSite)

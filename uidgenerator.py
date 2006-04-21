@@ -26,6 +26,7 @@ from DateTime import DateTime
 
 from zope.interface import implements
 
+from Globals import InitializeClass
 from AccessControl import ClassSecurityInfo
 from OFS.Folder import Folder
 
@@ -147,3 +148,6 @@ class UidGenerator(PropertiesPostProcessor, Folder):
         counter = UidCounter(counter_id, self.counter_start, criteria)
         self._setObject(counter_id, counter)
         return self._getOb(counter_id)
+
+
+InitializeClass(UidGenerator)

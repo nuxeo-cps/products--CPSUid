@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<import-steps>
+ <import-step id="uid" version="20060421-01"
+              handler="Products.CPSUid.exportimport.importUidTool"
+              title="Uid Tool">
+  <dependency step="toolset"/>
+  Import uid tool and uid generators.
+ </import-step>
+ <!-- optional declaration of toolset step, only here for tests -->
+ <import-step id="toolset" version="20040630-01"
+              handler="Products.GenericSetup.tool.importToolset"
+              title="Required tools">
+  Create required tools, replacing any of the wrong class, and remove
+  forbidden ones.
+ </import-step>
+</import-steps>

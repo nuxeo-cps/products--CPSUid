@@ -14,8 +14,7 @@ Features
 
 CPSUid provides :
 
-- identification profiles registration: profiles are declared to be used
-  for a list of given portal types.
+- identification profiles registration
 - unique id registration: unique ids are stored on the object, and
   incremented given the last unique id used.
 - unique id handling: given a uid, objects using this id can be found.

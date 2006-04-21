@@ -27,10 +27,14 @@ class IUidHandler(Interface):
     """Unique identifier handler
     """
 
-    def getGenerator(**kw):
-        """Get generator for given counter criteria
+    def getUid(generator_id, **kw):
+        """Get uid suing given generator_id according to keywords
+        """
 
-        If the generator does not exist yet, it is created
+    def __getitem__(uid, default=None):
+        """Get object with given uid
+
+        Present the most relevant document if several objects are found.
         """
 
 
@@ -38,12 +42,12 @@ class IUidGenerator(Interface):
     """Unique identifier generator
     """
 
-    def getUid():
-        """
+    def getUid(**kw):
+        """Get uid according to given keywords
         """
 
     def _getCounter(**criteria):
-        """Get counter for given keywords
+        """Get counter for given keyword criteria
         """
 
     def _createCounter(**criteria):
