@@ -22,6 +22,7 @@ Generators hold rules to build identifiers given parameters and also hold
 counters.
 """
 
+from logging import getLogger
 from DateTime import DateTime
 
 from zope.interface import implements
@@ -31,9 +32,11 @@ from AccessControl import ClassSecurityInfo
 from OFS.Folder import Folder
 
 from Products.CMFCore.permissions import View
+from Products.CMFCore.utils import getToolByName
 from Products.CMFCore.Expression import getEngine
 
 from Products.CPSUtil.PropertiesPostProcessor import PropertiesPostProcessor
+from Products.CPSUtil.id import generateId
 
 from Products.CPSUid.interfaces import IUidGenerator
 from Products.CPSUid.uidcounter import UidCounter
@@ -73,6 +76,8 @@ class UidGenerator(PropertiesPostProcessor, Folder):
     counter_start = 0
 
     manage_options = Folder.manage_options
+
+    logger = getLogger("CPSUid.UidGenerator")
 
     #
     # API
@@ -116,6 +121,8 @@ class UidGenerator(PropertiesPostProcessor, Folder):
         counter = self._getCounter(**criteria)
         mapping.update(criteria)
         mapping['number'] = counter.hit()
+        mapping['portal'] = getToolByName(self, 'portal_url').getPortalObject()
+        self.logger.debug(mapping)
         return getEngine().getContext(mapping)
 
 
@@ -145,6 +152,7 @@ class UidGenerator(PropertiesPostProcessor, Folder):
         for key, value in criteria.items():
             counter_id_list.append("%s-%s"%(key, value))
         counter_id = '_'.join(counter_id_list)
+        counter_id = generateId(counter_id, max_chars=50)
         counter = UidCounter(counter_id, self.counter_start, criteria)
         self._setObject(counter_id, counter)
         return self._getOb(counter_id)

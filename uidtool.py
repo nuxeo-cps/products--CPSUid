@@ -53,7 +53,7 @@ class UidTool(UniqueObject, Folder):
     # XXX uid setting is done at the field (in schema) level for now
 
     security.declareProtected(View, 'getUid')
-    def getUid(generator_id, default=_marker, **kw):
+    def getUid(self, generator_id, default=_marker, **kw):
         """Get uid using given generator_id according to keywords
         """
         generator = self._getOb(generator_id, default=None)
@@ -68,7 +68,7 @@ class UidTool(UniqueObject, Folder):
 
 
     security.declareProtected(View, '__getitem__')
-    def __getitem__(uid, default=_marker):
+    def __getitem__(self, uid, default=_marker):
         """Get object with given uid
 
         Present the most relevant document if several objects are found.
