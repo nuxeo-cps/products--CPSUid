@@ -152,7 +152,7 @@ class UidGenerator(PropertiesPostProcessor, Folder):
         for key, value in criteria.items():
             counter_id_list.append("%s-%s"%(key, value))
         counter_id = '_'.join(counter_id_list)
-        counter_id = generateId(counter_id, max_chars=50)
+        counter_id = generateId(counter_id, max_chars=100)
         counter = UidCounter(counter_id, self.counter_start, criteria)
         self._setObject(counter_id, counter)
         return self._getOb(counter_id)
