@@ -31,12 +31,6 @@ class IUidHandler(Interface):
         """Get uid suing given generator_id according to keywords
         """
 
-    def __getitem__(uid, default=None):
-        """Get object with given uid
-
-        Present the most relevant document if several objects are found.
-        """
-
 
 class IUidGenerator(Interface):
     """Unique identifier generator

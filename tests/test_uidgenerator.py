@@ -23,10 +23,18 @@ $Id$
 
 import unittest
 
+from OFS.Folder import Folder
+
 from zope.interface.verify import verifyClass
 
 from Products.CPSUid.interfaces import IUidGenerator
 from Products.CPSUid.uidgenerator import UidGenerator
+
+
+class FakeUrlTool(Folder):
+
+    def getPortalObject(self):
+        return self.aq_inner.aq_parent
 
 class TestUidGenerator(unittest.TestCase):
 
@@ -39,11 +47,17 @@ class TestUidGenerator(unittest.TestCase):
         # TAL expression to build the id as D-S-YY-NNN with D as document type,
         # S as source,YY as the current yea and NNN an incremented number
         self.expression = "python:str(portal_type)+'-'+str(source)+'-'+DateTime().strftime('%y')+'-'+'%#03d'%number"
-        self.generator = UidGenerator(
+        folder = Folder('folder')
+        generator = UidGenerator(
             'generator',
             generation_criteria=self.generation_criteria,
             generation_keywords=self.generation_keywords,
             generation_expression=self.expression)
+        folder._setObject('generator', generator)
+        self.generator = folder.generator
+
+        # add a fake url tool
+        folder._setObject('portal_url', FakeUrlTool())
 
     # tests
 
@@ -92,7 +106,7 @@ class TestUidGenerator(unittest.TestCase):
             'source': 'CPS',
             }
         counter = self.generator._getCounter(**criteria)
-        self.assertEqual(counter.getId(), 'source-CPS')
+        self.assertEqual(counter.getId(), 'source-cps')
         self.assertEqual(counter.counter_start, 0)
         self.assertEqual(counter.counter_current, 0)
         self.assertEqual(counter.criteria, criteria)
@@ -103,7 +117,7 @@ class TestUidGenerator(unittest.TestCase):
             'source': 'CPS',
             }
         counter = self.generator._createCounter(**criteria)
-        self.assertEqual(counter.getId(), 'source-CPS')
+        self.assertEqual(counter.getId(), 'source-cps')
         self.assertEqual(counter.counter_start, 0)
         self.assertEqual(counter.counter_current, 0)
         self.assertEqual(counter.criteria, criteria)

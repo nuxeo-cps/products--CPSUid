@@ -67,29 +67,6 @@ class UidTool(UniqueObject, Folder):
         return uid
 
 
-    security.declareProtected(View, '__getitem__')
-    def __getitem__(self, uid, default=_marker):
-        """Get object with given uid
-
-        Present the most relevant document if several objects are found.
-        """
-        # check the uid index exists
-        ctool = getToolByName(self, 'portal_catalog')
-        try:
-            ctool.getIndex('uid')
-        except KeyError:
-            self.logger.info("uid index is not set")
-            if default is _marker:
-                raise AttributeError, uid
-        res = default
-        brains = ctool.searchResults(uid=uid)
-        if brains:
-            # XXX take first result for now
-            res = brains[0]
-        elif default is _marker:
-            raise AttributeError, uid
-        return res
-
     # ZMI
 
     security.declareProtected(ManagePortal, 'manage_addUidGenerator')
