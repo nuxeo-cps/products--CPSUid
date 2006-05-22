@@ -53,10 +53,13 @@ class UidTool(UniqueObject, Folder):
     # XXX uid setting is done at the field (in schema) level for now
 
     security.declareProtected(View, 'getUid')
-    def getUid(self, generator_id, default=_marker, **kw):
+    def getUid(self, generator_id, default=_marker, datamodel=None,
+               **kw):
         """Get uid using given generator_id according to keywords
         """
         generator = self._getOb(generator_id, default=None)
+        if datamodel is not None:
+            kw.update(datamodel.items())
         if generator is not None:
             uid = generator.getUid(**kw)
         else:
