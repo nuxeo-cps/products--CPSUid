@@ -1,0 +1,16 @@
+*******************************************
+** CPSUid V0.0.1 [R1 build 2006/05/23-20:29 by anahide]
+** SVN URL: https://svn.nuxeo.org/priv/GEIDE/CPSUid/trunk Revision: 34551
+Requires:
+~~~~~~~~~
+-
+New features:
+~~~~~~~~~~~~~
+-
+Bug fixes:
+~~~~~~~~~~
+- Not the uid tool job to find a document given its uid
+New internal features:
+~~~~~~~~~~~~~~~~~~~~~~
+-
+
