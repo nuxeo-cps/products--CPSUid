@@ -46,7 +46,7 @@ class TestUidGenerator(unittest.TestCase):
         self.generation_keywords = ('portal_type',)
         # TAL expression to build the id as D-S-YY-NNN with D as document type,
         # S as source,YY as the current yea and NNN an incremented number
-        self.expression = "python:str(portal_type)+'-'+str(source)+'-'+datetime.now().strftime('%y')+'-'+'%#03d'%number"
+        self.expression = "python:str(portal_type)+'-'+str(source)+'-'+DateTime().strftime('%y')+'-'+'%#03d'%number"
         folder = Folder('folder')
         generator = UidGenerator(
             'generator',

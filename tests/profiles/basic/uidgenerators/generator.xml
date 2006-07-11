@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <object name="generator" meta_type="Uid Generator">
  <property name="generation_expression">
-  python:str(portal_type)+'-'+str(source)+'-'+datetime.now().strftime('%y')+'-'+'%#03d'%number</property>
+  python:str(portal_type)+'-'+str(source)+'-'+DateTime().strftime('%y')+'-'+'%#03d'%number</property>
  <property name="generation_criteria">
   <element value="source"/>
  </property>

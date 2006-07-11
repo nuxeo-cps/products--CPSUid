@@ -23,7 +23,7 @@ counters.
 """
 
 from logging import getLogger
-from datetime import datetime
+from DateTime import DateTime
 
 from zope.interface import implements
 
@@ -112,7 +112,7 @@ class UidGenerator(PropertiesPostProcessor, Folder):
         # generation additional keywords
         for keyword in self.generation_keywords:
             mapping[keyword] = kw.get(keyword)
-        mapping['datetime'] = datetime
+        mapping['DateTime'] = DateTime
         # counter
         criteria = {}
         # generation criteria

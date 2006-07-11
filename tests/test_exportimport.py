@@ -76,7 +76,7 @@ class ExportImportTest(ExportImportTestCase):
         self.assertEqual(generator.generation_keywords,
                          ('portal_type',))
         # FIXME: import should not keep the extra leadin \n character
-        expr = "\npython:str(portal_type)+'-'+str(source)+'-'+datetime.now().strftime('%y')+'-'+'%#03d'%number"
+        expr = "\npython:str(portal_type)+'-'+str(source)+'-'+DateTime().strftime('%y')+'-'+'%#03d'%number"
         self.assertEqual(generator.generation_expression, expr)
         self.assertNotEqual(generator.generation_expression_c, None)
         self.assertEqual(generator.counter_start, 1)
