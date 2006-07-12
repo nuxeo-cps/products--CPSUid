@@ -31,6 +31,7 @@ from Globals import InitializeClass
 from AccessControl import ClassSecurityInfo
 from OFS.Folder import Folder
 
+from Products.PageTemplates.Expressions import SecureModuleImporter
 from Products.CMFCore.permissions import View
 from Products.CMFCore.utils import getToolByName
 from Products.CMFCore.Expression import getEngine
@@ -113,6 +114,7 @@ class UidGenerator(PropertiesPostProcessor, Folder):
         for keyword in self.generation_keywords:
             mapping[keyword] = kw.get(keyword)
         mapping['DateTime'] = DateTime
+        mapping['modules'] = SecureModuleImporter
         # counter
         criteria = {}
         # generation criteria
