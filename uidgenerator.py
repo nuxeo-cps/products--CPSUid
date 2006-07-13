@@ -121,7 +121,7 @@ class UidGenerator(PropertiesPostProcessor, Folder):
         for keyword in self.generation_criteria:
             # XXX AT: capsule related fix: get rid of colons in keyword name
             # hoping no conflict will occur
-            criteria[keyword.replace(':', '')] = kw.get(keyword)
+            criteria[keyword.replace(':', '_')] = kw.get(keyword)
         counter = self._getCounter(**criteria)
         mapping.update(criteria)
         mapping['number'] = counter.hit()
