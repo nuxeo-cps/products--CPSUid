@@ -6,8 +6,7 @@ New features:
 -
 Bug fixes:
 ~~~~~~~~~~
-- Get rid of ':' character in generation criteria as TALES will not accept it
-  (capsule related bug)
+-
 New internal features:
 ~~~~~~~~~~~~~~~~~~~~~~
-- adding SecureModuleImporter in expresssion namespace
+-

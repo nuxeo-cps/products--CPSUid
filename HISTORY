@@ -1,4 +1,21 @@
 *******************************************
+** CPSUid V0.0.2 [R1 build 2006/07/20-15:28 by gracinet]
+** SVN URL: http://svn/pub/CPS3/products/CPSUid/trunk Revision: 47271
+Requires:
+~~~~~~~~~
+-
+New features:
+~~~~~~~~~~~~~
+-
+Bug fixes:
+~~~~~~~~~~
+- Get rid of ':' character in generation criteria as TALES will not accept it
+  (capsule related bug)
+New internal features:
+~~~~~~~~~~~~~~~~~~~~~~
+- adding SecureModuleImporter in expresssion namespace
+
+*******************************************
 ** CPSUid V0.0.1 [R1 build 2006/05/23-20:29 by anahide]
 ** SVN URL: https://svn.nuxeo.org/priv/GEIDE/CPSUid/trunk Revision: 34551
 Requires:
