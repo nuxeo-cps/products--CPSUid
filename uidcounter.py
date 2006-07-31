@@ -89,10 +89,12 @@ class UidCounter(SimpleItemWithProperties):
 
 
     # avoid conflicts on counter current value
-    def _p_resolveConflict(oldState, savedState, newState):
+    def _p_resolveConflict(self, oldState, savedState, newState):
         """Avoid conflicts when changing the counter value
         """
-        # XXX check if it's ok
+        #XXX GR: this does resolve conflicts, but the two callers got
+        # the same number, hence really need to randomize the uid to enforce
+        # unicity
         bigger_counter = max(savedState['counter_current'],
                              newState['counter_current'])
         newState['counter_current'] = bigger_counter + 1
