@@ -22,6 +22,7 @@ Generators hold rules to build identifiers given parameters and also hold
 counters.
 """
 
+import random
 from logging import getLogger
 from DateTime import DateTime
 
@@ -115,6 +116,7 @@ class UidGenerator(PropertiesPostProcessor, Folder):
             mapping[keyword] = kw.get(keyword)
         mapping['DateTime'] = DateTime
         mapping['modules'] = SecureModuleImporter
+        mapping['random'] = random.random
         # counter
         criteria = {}
         # generation criteria
