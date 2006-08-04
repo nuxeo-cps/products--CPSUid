@@ -1,4 +1,21 @@
 *******************************************
+** CPSUid V0.0.3 [R1 build 2006/08/04-11:42 by gracinet]
+** SVN URL: http://svn/pub/CPS3/products/CPSUid/trunk Revision: 48000
+Requires:
+~~~~~~~~~
+-
+New features:
+~~~~~~~~~~~~~
+- One can use random() in the TALES expression. This is python standard
+  random.random function.
+Bug fixes:
+~~~~~~~~~~
+-
+New internal features:
+~~~~~~~~~~~~~~~~~~~~~~
+-
+
+*******************************************
 ** CPSUid V0.0.2 [R1 build 2006/07/20-15:28 by gracinet]
 ** SVN URL: http://svn/pub/CPS3/products/CPSUid/trunk Revision: 47271
 Requires:

@@ -3,8 +3,7 @@ Requires:
 -
 New features:
 ~~~~~~~~~~~~~
-- One can use random() in the TALES expression. This is python standard
-  random.random function.
+-
 Bug fixes:
 ~~~~~~~~~~
 -
