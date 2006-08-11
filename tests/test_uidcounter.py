@@ -38,6 +38,10 @@ class TestUidCounter(unittest.TestCase):
             "source": "CPS",
             "doument_type": "Common type",
             }
+        self.criteria_lines = (
+            "source CPS",
+            "doument_type Common type",
+            )
         self.counter = UidCounter("counter", 1, self.criteria)
 
     # tests
@@ -55,14 +59,14 @@ class TestUidCounter(unittest.TestCase):
         self.assertEqual(counter.getId(), "counter")
         self.assertEqual(counter.counter_start, 1)
         self.assertEqual(counter.counter_current, 1)
-        self.assertEqual(counter.criteria, criteria)
+        self.assertEqual(counter.getCriteria(), criteria)
 
     def test_test_case_counter(self):
         self.assertEqual(self.counter.meta_type, "Uid Counter")
         self.assertEqual(self.counter.getId(), "counter")
         self.assertEqual(self.counter.counter_start, 1)
         self.assertEqual(self.counter.counter_current, 1)
-        self.assertEqual(self.counter.criteria, self.criteria)
+        self.assertEqual(self.counter.criteria, self.criteria_lines)
 
     def test_hit(self):
         self.assertEqual(self.counter.counter_current, 1)

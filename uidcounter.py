@@ -48,7 +48,11 @@ class UidCounter(SimpleItemWithProperties):
          'label': 'Counter start value'},
         {'id': 'counter_current', 'type': 'int', 'mode': 'w',
          'label': 'Counter current value'},
-        {'id': 'criteria', 'type': 'text', 'mode': 'r',
+        # one criteria per line, following the format "key value", for
+        # instance:
+        # portal_type Workspace
+        # type CPS
+        {'id': 'criteria', 'type': 'lines', 'mode': 'w',
          'label': 'Criteria mapping'},
         )
 
@@ -56,13 +60,15 @@ class UidCounter(SimpleItemWithProperties):
     # API
     #
 
-    def __init__(self, id, counter_start, criteria):
+    def __init__(self, id, counter_start=0, criteria={}):
         """Initialization
         """
         self.id = id
         self._setPropValue('counter_start', counter_start)
         self._setPropValue('counter_current', counter_start)
-        self._setPropValue('criteria', criteria)
+        criteria_lines = list(['%s %s'%(key, value)
+                               for key, value in criteria.items()])
+        self._setPropValue('criteria', criteria_lines)
 
 
     security.declarePrivate('hit')
@@ -85,8 +91,14 @@ class UidCounter(SimpleItemWithProperties):
     def getCriteria(self):
         """Get the counter criteria
         """
-        return self.criteria
-
+        criteria_dict = {}
+        for mapping in self.criteria:
+            sep_index = mapping.find(' ')
+            if sep_index != -1:
+                key = mapping[:sep_index]
+                value = mapping[sep_index+1:]
+                criteria_dict[key] = value
+        return criteria_dict
 
     # avoid conflicts on counter current value
     def _p_resolveConflict(self, oldState, savedState, newState):

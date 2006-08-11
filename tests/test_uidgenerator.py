@@ -105,11 +105,15 @@ class TestUidGenerator(unittest.TestCase):
         criteria = {
             'source': 'CPS',
             }
+        criteria_lines = (
+            'source CPS',
+            )
         counter = self.generator._getCounter(**criteria)
         self.assertEqual(counter.getId(), 'source-cps')
         self.assertEqual(counter.counter_start, 0)
         self.assertEqual(counter.counter_current, 0)
-        self.assertEqual(counter.criteria, criteria)
+        self.assertEqual(counter.criteria, criteria_lines)
+        self.assertEqual(counter.getCriteria(), criteria)
 
 
     def test___createCounter(self):
@@ -120,7 +124,7 @@ class TestUidGenerator(unittest.TestCase):
         self.assertEqual(counter.getId(), 'source-cps')
         self.assertEqual(counter.counter_start, 0)
         self.assertEqual(counter.counter_current, 0)
-        self.assertEqual(counter.criteria, criteria)
+        self.assertEqual(counter.getCriteria(), criteria)
 
 
 def test_suite():

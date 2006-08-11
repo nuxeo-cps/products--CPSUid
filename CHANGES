@@ -1,6 +1,6 @@
 Requires:
 ~~~~~~~~~
--
+- Deleting existing counters.
 New features:
 ~~~~~~~~~~~~~
 -
@@ -9,4 +9,4 @@ Bug fixes:
 -
 New internal features:
 ~~~~~~~~~~~~~~~~~~~~~~
--
+- Use lines to store counter criteria to be able to edit them in the ZMI.
