@@ -74,6 +74,12 @@ class UidCounter(SimpleItemWithProperties):
     security.declarePrivate('hit')
     def hit(self):
         """Hit the counter: return current counter and increment its value
+
+        XXXXXX GR. Currently the conflict resolving system breaks the
+        counter unicity because two conflicting threads will get the same
+        value and the transaction will be replayed.
+        We should make an independent micro-transaction here with its own
+        ZODB connection and implement a replay system like the publisher's.
         """
         # XXX AT: this is were conflict issues should be handled (?)
         counter_value = self.counter_current
