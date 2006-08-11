@@ -21,6 +21,7 @@
       title="Upgrade CPSUid counters"
       handler=".upgrade.upgradeUidCounters"
       checker=".upgrade.checkUidCounters"
+      source="3.4.2" destination="3.4.3"
       />
 
 </configure>
