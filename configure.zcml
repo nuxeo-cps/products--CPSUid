@@ -1,6 +1,7 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
-    xmlns:five="http://namespaces.zope.org/five">
+    xmlns:five="http://namespaces.zope.org/five"
+    xmlns:cps="http://namespaces.nuxeo.org/cps">
 
   <adapter
       factory=".exportimport.UidToolXMLAdapter"
@@ -14,6 +15,12 @@
       provides="Products.GenericSetup.interfaces.IBody"
       for=".interfaces.IUidGenerator
            Products.GenericSetup.interfaces.ISetupEnviron"
+      />
+
+  <cps:upgradeStep
+      title="Upgrade CPSUid counters"
+      handler=".upgrade.upgradeUidCounters"
+      checker=".upgrade.checkUidCounters"
       />
 
 </configure>

@@ -1,6 +1,6 @@
 Requires:
 ~~~~~~~~~
-- Deleting existing counters.
+- Run uid counters upgrade step.
 New features:
 ~~~~~~~~~~~~~
 -
