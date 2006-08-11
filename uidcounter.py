@@ -77,7 +77,7 @@ class UidCounter(SimpleItemWithProperties):
 
         XXXXXX GR. Currently the conflict resolving system breaks the
         counter unicity because two conflicting threads will get the same
-        value and the transaction will be replayed.
+        value and the transaction will not be replayed.
         We should make an independent micro-transaction here with its own
         ZODB connection and implement a replay system like the publisher's.
         """
