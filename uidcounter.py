@@ -75,6 +75,7 @@ class UidCounter(SimpleItemWithProperties):
     def hit(self):
         """Hit the counter: return current counter and increment its value
         """
+        # XXX AT: this is were conflict issues should be handled (?)
         counter_value = self.counter_current
         self.counter_current = counter_value + 1
         return counter_value
@@ -104,9 +105,8 @@ class UidCounter(SimpleItemWithProperties):
     def _p_resolveConflict(self, oldState, savedState, newState):
         """Avoid conflicts when changing the counter value
         """
-        #XXX GR: this does resolve conflicts, but the two callers got
-        # the same number, hence really need to randomize the uid to enforce
-        # unicity
+        # XXX GR: this does resolve conflicts, but the two callers got the same
+        # number, hence really need to randomize the uid to enforce unicity
         bigger_counter = max(savedState['counter_current'],
                              newState['counter_current'])
         newState['counter_current'] = bigger_counter + 1
