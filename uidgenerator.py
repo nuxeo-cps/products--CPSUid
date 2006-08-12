@@ -43,6 +43,13 @@ from Products.CPSUtil.id import generateId
 from Products.CPSUid.interfaces import IUidGenerator
 from Products.CPSUid.uidcounter import UidCounter
 
+
+def stringify(value):
+    if not isinstance(value, basestring):
+        value = str(value)
+    return value
+
+
 class UidGenerator(PropertiesPostProcessor, Folder):
     """Uid Generator
 
@@ -137,8 +144,12 @@ class UidGenerator(PropertiesPostProcessor, Folder):
         """Get counter for given keyword criteria
         """
         winner = None
+        # stringify criteria in case it holds some integers
+        scriteria = criteria.copy()
+        for key, value in scriteria.items():
+            scriteria[key] = stringify(value)
         for counter in self.objectValues():
-            if criteria == counter.getCriteria():
+            if scriteria == counter.getCriteria():
                 winner = counter
                 break
         if winner is None:

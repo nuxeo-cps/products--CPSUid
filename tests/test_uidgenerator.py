@@ -104,16 +104,27 @@ class TestUidGenerator(unittest.TestCase):
     def test__getCounter(self):
         criteria = {
             'source': 'CPS',
+            'year': 2006,
             }
         criteria_lines = (
             'source CPS',
+            'year 2006',
             )
         counter = self.generator._getCounter(**criteria)
-        self.assertEqual(counter.getId(), 'source-cps')
+        self.assertEqual(counter.getId(), 'source-cps_year-2006')
         self.assertEqual(counter.counter_start, 0)
         self.assertEqual(counter.counter_current, 0)
         self.assertEqual(counter.criteria, criteria_lines)
-        self.assertEqual(counter.getCriteria(), criteria)
+
+        counter.hit()
+        self.assertEqual(counter.counter_current, 1)
+
+        # get it again
+        counter_again = self.generator._getCounter(**criteria)
+        self.assertEqual(counter.getId(), 'source-cps_year-2006')
+        self.assertEqual(counter.counter_start, 0)
+        self.assertEqual(counter.counter_current, 1)
+        self.assertEqual(counter.criteria, criteria_lines)
 
 
     def test___createCounter(self):
