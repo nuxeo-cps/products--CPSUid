@@ -100,10 +100,8 @@ class UidCounter(SimpleItemWithProperties):
         """
         criteria_dict = {}
         for mapping in self.criteria:
-            sep_index = mapping.find(' ')
-            if sep_index != -1:
-                key = mapping[:sep_index]
-                value = mapping[sep_index+1:]
+            if ' ' in mapping:
+                key, value = mapping.split(' ', 1)
                 criteria_dict[key] = value
         return criteria_dict
 
