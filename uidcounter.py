@@ -115,7 +115,7 @@ class UidCounter(SimpleItemWithProperties):
                 break
         else:
             # exhausted all tries
-            raise ConflictError
+            raise ConflictError(object=self)
         return v
 
     security.declarePrivate('reset')
