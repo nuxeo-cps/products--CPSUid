@@ -1,6 +1,7 @@
 # (C) Copyright 2006 Nuxeo SAS <http://nuxeo.com>
 # Authors:
 # - Anahide Tchertchian <at@nuxeo.com>
+# - Florent Guillaume <fg@nuxeo.com>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License version 2 as published
@@ -20,15 +21,20 @@
 
 A counter holds criteria and an integer counter applying to these criteria
 """
+import logging
 
 from zope.interface import implements
+from transaction import TransactionManager
 
 from Globals import InitializeClass
 from AccessControl import ClassSecurityInfo
+from ZODB.POSException import ConflictError
 
 from Products.CMFCore.utils import SimpleItemWithProperties
 
 from Products.CPSUid.interfaces import IUidCounter
+
+logger = logging.getLogger('CPSUid.uidcounter')
 
 class UidCounter(SimpleItemWithProperties):
     """Uid Counter
@@ -56,6 +62,8 @@ class UidCounter(SimpleItemWithProperties):
          'label': 'Criteria mapping'},
         )
 
+    max_tries = 5
+
     #
     # API
     #
@@ -73,19 +81,42 @@ class UidCounter(SimpleItemWithProperties):
 
     security.declarePrivate('hit')
     def hit(self):
-        """Hit the counter: return current counter and increment its value
+        """Hit the counter: return current counter and increment its value.
 
-        XXXXXX GR. Currently the conflict resolving system breaks the
-        counter unicity because two conflicting threads will get the same
-        value and the transaction will not be replayed.
-        We should make an independent micro-transaction here with its own
-        ZODB connection and implement a replay system like the publisher's.
+        Fires a dedicated micro transaction to diminish risks of conflicts
+        because we definitely *don't* want to resolve them (that breaks
+        returned values' unicity).
+
         """
-        # XXX AT: this is were conflict issues should be handled (?)
-        counter_value = self.counter_current
-        self.counter_current = counter_value + 1
-        return counter_value
+        db = self._p_jar.db()
 
+        retries = self.max_tries
+        while retries:
+            try:
+                logger.debug(
+                    "Hitting on counter %s, trying %d times", self, retries)
+                tm = TransactionManager()
+
+                cnx = db.open(transaction_manager=tm)
+                tm.begin()
+                ob = cnx.get(self._p_oid)
+
+                v = ob.counter_current
+                ob.counter_current = v + 1
+
+                tm.commit()
+                cnx.close()
+            except ConflictError:
+                logger.debug('ConflictError')
+                tm.abort()
+                cnx.close()
+                retries -= 1
+            else:
+                break
+        else:
+            # exhausted all tries
+            raise ConflictError
+        return v
 
     security.declarePrivate('reset')
     def reset(self):
@@ -104,17 +135,5 @@ class UidCounter(SimpleItemWithProperties):
                 key, value = mapping.split(' ', 1)
                 criteria_dict[key] = value
         return criteria_dict
-
-    # avoid conflicts on counter current value
-    def _p_resolveConflict(self, oldState, savedState, newState):
-        """Avoid conflicts when changing the counter value
-        """
-        # XXX GR: this does resolve conflicts, but the two callers got the same
-        # number, hence really need to randomize the uid to enforce unicity
-        bigger_counter = max(savedState['counter_current'],
-                             newState['counter_current'])
-        newState['counter_current'] = bigger_counter + 1
-        return newState
-
 
 InitializeClass(UidCounter)
