@@ -6,7 +6,7 @@ New features
 -
 Bug fixes
 ~~~~~~~~~
-- #1789: In case of conflicting transactions, id unicity was broken
+-
 New internal features
 ~~~~~~~~~~~~~~~~~~~~~
 - 
