@@ -88,6 +88,13 @@ class UidCounter(SimpleItemWithProperties):
         returned values' unicity).
 
         """
+	jar = self._p_jar
+	if jar is None:
+	   # creation of counter
+           v = self.counter_start
+           self.counter_current = v + 1
+	   return v
+
         db = self._p_jar.db()
 
         retries = self.max_tries
