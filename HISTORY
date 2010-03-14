@@ -1,4 +1,21 @@
 ===========================================================
+Package: CPSUid 0.1.5
+===========================================================
+First release built by: gracinet at: 2010-03-14T16:39:34
+Requires
+~~~~~~~~
+-
+New features
+~~~~~~~~~~~~
+-
+Bug fixes
+~~~~~~~~~
+- Switch to mercurial DCVS and hgbundler release manager
+New internal features
+~~~~~~~~~~~~~~~~~~~~~
+- 
+
+===========================================================
 Package: CPSUid 0.1.4
 ===========================================================
 First release built by: div at: 2006-11-30T19:54:42
