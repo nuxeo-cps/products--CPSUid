@@ -6,7 +6,7 @@ New features
 -
 Bug fixes
 ~~~~~~~~~
--
+- Fixed unit tests that had been broken for 4 years
 New internal features
 ~~~~~~~~~~~~~~~~~~~~~
 - 

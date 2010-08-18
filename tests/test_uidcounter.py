@@ -22,17 +22,19 @@ $Id$
 """
 
 import unittest
+from Testing.ZopeTestCase import ZopeTestCase
 
 from zope.interface.verify import verifyClass
 
+import transaction
 from Products.CPSUid.interfaces import IUidCounter
 from Products.CPSUid.uidcounter import UidCounter
 
-class TestUidCounter(unittest.TestCase):
+class TestUidCounter(ZopeTestCase):
 
     # fixture
 
-    def setUp(self):
+    def afterSetUp(self):
         # add a test counter
         self.criteria = {
             "source": "CPS",
@@ -42,7 +44,14 @@ class TestUidCounter(unittest.TestCase):
             "source CPS",
             "doument_type Common type",
             )
-        self.counter = UidCounter("counter", 1, self.criteria)
+        self.folder._setObject('counter',
+                               UidCounter("counter", 1, self.criteria))
+        self.counter = self.folder.counter
+        transaction.commit()
+
+    def beforeTearDown(self):
+        self.app._delObject(self.folder.getId())
+        transaction.commit()
 
     # tests
 
@@ -71,15 +80,20 @@ class TestUidCounter(unittest.TestCase):
     def test_hit(self):
         self.assertEqual(self.counter.counter_current, 1)
         self.assertEqual(self.counter.hit(), 1)
-        self.assertEqual(self.counter.counter_current, 2)
         self.assertEqual(self.counter.hit(), 2)
+        # all these hits actually belong to the micro-transaction
+        # we need to close this one to read the proper value if we want
+        # to do it directly
+        transaction.commit()
         self.assertEqual(self.counter.counter_current, 3)
 
     def test_reset(self):
         self.assertEqual(self.counter.counter_current, 1)
         self.counter.counter_current = 3
+        transaction.commit()
         self.assertEqual(self.counter.counter_current, 3)
         self.counter.reset()
+        transaction.commit()
         self.assertEqual(self.counter.counter_current, 1)
 
     def test__getCriteria(self):

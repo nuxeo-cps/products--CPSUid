@@ -22,7 +22,10 @@ $Id$
 """
 
 import unittest
+from Testing.ZopeTestCase import ZopeTestCase
 
+import transaction
+from DateTime.DateTime import DateTime
 from OFS.Folder import Folder
 
 from zope.interface.verify import verifyClass
@@ -36,18 +39,18 @@ class FakeUrlTool(Folder):
     def getPortalObject(self):
         return self.aq_inner.aq_parent
 
-class TestUidGenerator(unittest.TestCase):
+class TestUidGenerator(ZopeTestCase):
 
     # fixture
 
-    def setUp(self):
+    def afterSetUp(self):
         # add a test generator
         self.generation_criteria = ('source',)
         self.generation_keywords = ('portal_type',)
         # TAL expression to build the id as D-S-YY-NNN with D as document type,
         # S as source,YY as the current yea and NNN an incremented number
         self.expression = "python:str(portal_type)+'-'+str(source)+'-'+DateTime().strftime('%y')+'-'+'%#03d'%number"
-        folder = Folder('folder')
+        folder = self.folder
         generator = UidGenerator(
             'generator',
             generation_criteria=self.generation_criteria,
@@ -58,6 +61,12 @@ class TestUidGenerator(unittest.TestCase):
 
         # add a fake url tool
         folder._setObject('portal_url', FakeUrlTool())
+        transaction.commit()
+
+    def beforeTearDown(self):
+        self.app._delObject(self.folder.getId())
+        transaction.commit()
+
 
     # tests
 
@@ -91,14 +100,20 @@ class TestUidGenerator(unittest.TestCase):
         kw = {
             'portal_type': 'file_document',
             'source': 'CPS',
-            }
+            } 
+        year = str(DateTime().year())[2:]
+
         uid = self.generator.getUid(**kw)
-        self.assertEqual(uid, 'file_document-CPS-06-000')
+        self.assertEqual(uid, 'file_document-CPS-%s-000' % year)
+        transaction.commit()
+
         new_uid = self.generator.getUid(**kw)
-        self.assertEqual(new_uid, 'file_document-CPS-06-001')
+        self.assertEqual(new_uid, 'file_document-CPS-%s-001' % year)
+        transaction.commit()
+
         # hit again
         newer_uid = self.generator.getUid(**kw)
-        self.assertEqual(newer_uid, 'file_document-CPS-06-002')
+        self.assertEqual(newer_uid, 'file_document-CPS-%s-002' % year)
 
 
     def test__getCounter(self):
