@@ -1,4 +1,21 @@
 ===========================================================
+Package: CPSUid 0.1.7
+===========================================================
+First release built by: gracinet at: 2010-10-03T11:47:02
+Requires
+~~~~~~~~
+-
+New features
+~~~~~~~~~~~~
+-
+Bug fixes
+~~~~~~~~~
+- Fixed unit tests that had been broken for 4 years
+New internal features
+~~~~~~~~~~~~~~~~~~~~~
+- 
+
+===========================================================
 Package: CPSUid 0.1.6
 ===========================================================
 First release built by: gracinet at: 2010-07-26T22:41:39
