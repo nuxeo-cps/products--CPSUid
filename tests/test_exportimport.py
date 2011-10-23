@@ -16,16 +16,18 @@
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 # 02111-1307, USA.
 #
-# $Id$
 """Tests for the CPScore export/import mechanism
 """
 
+import os
 import unittest
 from Testing import ZopeTestCase
 
 from Products.CPSUtil.testing.genericsetup import ExportImportTestCase
 
 ZopeTestCase.installProduct('CPSUid')
+
+TEST_PROFILES_PATH = os.path.join(os.path.split(__file__)[0], 'profiles')
 
 class ExportImportTest(ExportImportTestCase):
 
@@ -55,8 +57,8 @@ class ExportImportTest(ExportImportTestCase):
             'import_steps.xml',
             'uidgenerators.xml',
             ]
-        self._checkExportProfile('CPSUid/tests/profiles/default_export/',
-                                 toc_list)
+        self._checkExportProfile(os.path.join(TEST_PROFILES_PATH,
+                                              'default_export'), toc_list)
 
 
     def test_basic_import(self):
@@ -92,7 +94,7 @@ class ExportImportTest(ExportImportTestCase):
             'uidgenerators.xml',
             'uidgenerators/generator.xml',
            ]
-        self._checkExportProfile('CPSUid/tests/profiles/basic',
+        self._checkExportProfile(os.path.join(TEST_PROFILES_PATH, 'basic'),
                                  toc_list)
 
 
